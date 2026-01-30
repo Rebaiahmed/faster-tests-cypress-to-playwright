@@ -104,8 +104,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           install: false
-          spec: |
-            cypress/e2e/!(realworld|api)/*.js
+          spec: cypress/e2e/*.js
           browser: ${{ github.event.inputs.browser || 'chrome' }}
           record: false
         env:
