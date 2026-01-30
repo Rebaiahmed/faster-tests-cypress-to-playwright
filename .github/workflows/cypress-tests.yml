@@ -57,7 +57,7 @@ jobs:
             cypress-${{ runner.os }}-
 
       - name: 🔨 Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: 📊 Get Cypress version
         id: cypress-version
