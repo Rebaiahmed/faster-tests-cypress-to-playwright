@@ -28,7 +28,15 @@
     "test:count": "find cypress/e2e -name '*.js' -exec grep -h '^\\s*it(' {} \\; | wc -l",
     "report:generate": "./scripts/generate-report.sh",
     "report:clean": "./scripts/clean-reports.sh",
-    "ci:test": "npm run report:clean && npm run test:report && npm run report:generate"
+    "ci:test": "npm run report:clean && npm run test:report && npm run report:generate",
+    "test:pw": "playwright test",
+    "test:pw:ui": "playwright test --ui",
+    "test:pw:headed": "playwright test --headed",
+    "test:pw:debug": "playwright test --debug",
+    "test:pw:report": "playwright show-report",
+    "test:pw:codegen": "playwright codegen https://www.saucedemo.com",
+    "test:pw:chrome": "playwright test --project=chromium",
+    "test:pw:count": "find playwright/tests -name '*.spec.js' -exec grep -h '^\\s*test(' {} \\; | wc -l"
   },
   "repository": {
     "type": "git",
@@ -43,11 +51,13 @@
   },
   "homepage": "https://github.com/miottto/saucedemo-e2e-tests#readme",
   "devDependencies": {
+    "@playwright/test": "^1.58.1",
     "cypress": "^14.2.1",
     "cypress-multi-reporters": "^2.0.5",
     "mocha": "^11.7.5",
     "mochawesome": "^7.1.4",
     "mochawesome-merge": "^4.4.1",
-    "mochawesome-report-generator": "^6.3.2"
+    "mochawesome-report-generator": "^6.3.2",
+    "playwright": "^1.58.1"
   }
 }
