@@ -7,5 +7,11 @@ module.exports = defineConfig({
     },
     specPattern: "cypress/e2e/**/*.{js,jsx,ts,tsx,feature}",
     video: true,
+    videosFolder: "cypress/videos",
+    screenshotsFolder: "cypress/screenshots",
+    reporter: "cypress-multi-reporters",
+    reporterOptions: {
+      configFile: "cypress-reporter-config.json",
+    },
   },
 });

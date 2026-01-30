@@ -21,8 +21,14 @@
     "test:checkout": "cypress run --spec 'cypress/e2e/checkout*.js'",
     "test:smoke": "cypress run --spec 'cypress/e2e/smoke_tests.js'",
     "test:integration": "cypress run --spec 'cypress/e2e/integration_tests.js'",
-    "test:report": "cypress run --reporter json --reporter-options output=results.json",
-    "test:count": "find cypress/e2e -name '*.js' -exec grep -h '^\\s*it(' {} \\; | wc -l"
+    "test:saucedemo": "cypress run --spec 'cypress/e2e/!(realworld|api)/*.js'",
+    "test:realworld": "cypress run --spec 'cypress/e2e/realworld/*.js'",
+    "test:api": "cypress run --spec 'cypress/e2e/api/*.js'",
+    "test:report": "cypress run --reporter cypress-multi-reporters --reporter-options configFile=cypress-reporter-config.json",
+    "test:count": "find cypress/e2e -name '*.js' -exec grep -h '^\\s*it(' {} \\; | wc -l",
+    "report:generate": "./scripts/generate-report.sh",
+    "report:clean": "./scripts/clean-reports.sh",
+    "ci:test": "npm run report:clean && npm run test:report && npm run report:generate"
   },
   "repository": {
     "type": "git",
@@ -37,6 +43,11 @@
   },
   "homepage": "https://github.com/miottto/saucedemo-e2e-tests#readme",
   "devDependencies": {
-    "cypress": "^14.2.1"
+    "cypress": "^14.2.1",
+    "cypress-multi-reporters": "^2.0.5",
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }

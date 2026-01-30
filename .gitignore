@@ -12,3 +12,17 @@ cypress/results/
 
 # Environment variables
 .env
+
+# Test reports
+cypress/reports/
+
+# Build artifacts
+.DS_Store
+*.log
+npm-debug.log*
+.npm
+.eslintcache
+.cache/
+dist/
+build/
+package-lock.json
