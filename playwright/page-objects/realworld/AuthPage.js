@@ -4,11 +4,11 @@ class AuthPage {
   }
 
   async visitLogin() {
-    await this.page.goto('https://demo.realworld.io/#/login');
+    await this.page.goto('https://demo.realworld.io/#/login', { waitUntil: 'networkidle' });
   }
 
   async visitRegister() {
-    await this.page.goto('https://demo.realworld.io/#/register');
+    await this.page.goto('https://demo.realworld.io/#/register', { waitUntil: 'networkidle' });
   }
 
   getEmailInput() {

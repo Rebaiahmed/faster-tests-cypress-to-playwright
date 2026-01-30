@@ -4,11 +4,11 @@ class ProfilePage {
   }
 
   async visit(username) {
-    await this.page.goto(`https://demo.realworld.io/#/profile/${username}`);
+    await this.page.goto(`https://demo.realworld.io/#/profile/${username}`, { waitUntil: 'networkidle' });
   }
 
   async visitSettings() {
-    await this.page.goto('https://demo.realworld.io/#/settings');
+    await this.page.goto('https://demo.realworld.io/#/settings', { waitUntil: 'networkidle' });
   }
 
   getFollowButton() {
