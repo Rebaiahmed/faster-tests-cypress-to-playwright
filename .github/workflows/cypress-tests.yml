@@ -69,16 +69,11 @@ jobs:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
-  # Job 2: SauceDemo UI Tests
-  saucedemo-tests:
-    name: 🛒 SauceDemo E2E Tests
+  # Job 2: Run All Tests (505 tests)
+  all-tests:
+    name: 🧪 All E2E Tests (505 tests)
     runs-on: ubuntu-latest
     needs: setup
-    if: ${{ !github.event.inputs.test_suite || github.event.inputs.test_suite == 'all' || github.event.inputs.test_suite == 'saucedemo' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1]
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -100,85 +95,25 @@ jobs:
           path: node_modules
           key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
-      - name: 🧪 Run SauceDemo Tests (Container ${{ matrix.containers }})
+      - name: 🧪 Run All Tests (SauceDemo + RealWorld + API)
         uses: cypress-io/github-action@v6
         continue-on-error: true
         with:
           install: false
-          spec: cypress/e2e/*.js
+          spec: |
+            cypress/e2e/*.js
+            cypress/e2e/realworld/*.js
+            cypress/e2e/api/*.js
           browser: ${{ github.event.inputs.browser || 'chrome' }}
           record: false
         env:
           CYPRESS_BASE_URL: https://www.saucedemo.com
 
-      - name: 📸 Upload Screenshots (on failure)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: saucedemo-screenshots-${{ matrix.containers }}
-          path: cypress/screenshots
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: 🎥 Upload Videos
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: saucedemo-videos-${{ matrix.containers }}
-          path: cypress/videos
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: 📊 Upload Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: saucedemo-reports-${{ matrix.containers }}
-          path: cypress/reports
-          if-no-files-found: ignore
-          retention-days: 30
-
-  # Job 3: RealWorld UI Tests
-  realworld-tests:
-    name: 🌍 RealWorld Conduit Tests
-    runs-on: ubuntu-latest
-    needs: setup
-    if: ${{ !github.event.inputs.test_suite || github.event.inputs.test_suite == 'all' || github.event.inputs.test_suite == 'realworld' }}
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🔧 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: 📚 Restore Cypress cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-
-      - name: 📦 Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
-
-      - name: 🧪 Run RealWorld Tests
-        uses: cypress-io/github-action@v6
-        continue-on-error: true
-        with:
-          install: false
-          spec: cypress/e2e/realworld/*.js
-          browser: ${{ github.event.inputs.browser || 'chrome' }}
-          record: false
-
       - name: 📸 Upload Screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: realworld-screenshots
+          name: all-test-screenshots
           path: cypress/screenshots
           if-no-files-found: ignore
           retention-days: 7
@@ -187,7 +122,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: realworld-videos
+          name: all-test-videos
           path: cypress/videos
           if-no-files-found: ignore
           retention-days: 7
@@ -196,61 +131,16 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: realworld-reports
+          name: all-test-reports
           path: cypress/reports
           if-no-files-found: ignore
           retention-days: 30
 
-  # Job 4: API Tests
-  api-tests:
-    name: 🔌 API Integration Tests
-    runs-on: ubuntu-latest
-    needs: setup
-    if: ${{ !github.event.inputs.test_suite || github.event.inputs.test_suite == 'all' || github.event.inputs.test_suite == 'api' }}
-    steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🔧 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: 📚 Restore Cypress cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
-
-      - name: 📦 Restore node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
-
-      - name: 🧪 Run API Tests
-        uses: cypress-io/github-action@v6
-        continue-on-error: true
-        with:
-          install: false
-          spec: cypress/e2e/api/*.js
-          browser: chrome
-          record: false
-
-      - name: 📊 Upload API Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-test-reports
-          path: cypress/reports
-          if-no-files-found: ignore
-          retention-days: 30
-
-  # Job 5: Generate Consolidated Report
+  # Job 3: Generate Consolidated Report
   generate-report:
     name: 📈 Generate Test Report
     runs-on: ubuntu-latest
-    needs: [saucedemo-tests, realworld-tests, api-tests]
+    needs: [all-tests]
     if: always()
     steps:
       - name: 📥 Checkout code
@@ -298,12 +188,10 @@ jobs:
           echo "- **Cypress Version:** ${{ needs.setup.outputs.cypress-version }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Node Version:** ${{ env.NODE_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "## 🎯 Test Suites" >> $GITHUB_STEP_SUMMARY
-          echo "| Suite | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| 🛒 SauceDemo | ${{ needs.saucedemo-tests.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🌍 RealWorld | ${{ needs.realworld-tests.result }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| 🔌 API Tests | ${{ needs.api-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "## 🎯 Test Execution" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 All Tests (505) | ${{ needs.all-tests.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## 📦 Artifacts" >> $GITHUB_STEP_SUMMARY
           echo "- Screenshots (on failures)" >> $GITHUB_STEP_SUMMARY
@@ -339,11 +227,11 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  # Job 6: Performance Metrics
+  # Job 4: Performance Metrics
   performance-metrics:
     name: ⚡ Performance Metrics
     runs-on: ubuntu-latest
-    needs: [saucedemo-tests, realworld-tests, api-tests]
+    needs: [all-tests]
     if: always()
     steps:
       - name: 📊 Calculate Metrics
@@ -365,18 +253,16 @@ jobs:
           echo "- Current estimated runtime: ~45 minutes" >> $GITHUB_STEP_SUMMARY
           echo "- Potential with Playwright: ~18 minutes" >> $GITHUB_STEP_SUMMARY
 
-  # Job 7: Notify on completion
+  # Job 5: Notify on completion
   notify:
     name: 📢 Notifications
     runs-on: ubuntu-latest
-    needs: [saucedemo-tests, realworld-tests, api-tests, generate-report]
+    needs: [all-tests, generate-report]
     if: always()
     steps:
       - name: 📢 Create Status Badge
         run: |
-          if [ "${{ needs.saucedemo-tests.result }}" == "success" ] && \
-             [ "${{ needs.realworld-tests.result }}" == "success" ] && \
-             [ "${{ needs.api-tests.result }}" == "success" ]; then
+          if [ "${{ needs.all-tests.result }}" == "success" ]; then
             echo "STATUS=✅ All Tests Passed" >> $GITHUB_ENV
             echo "COLOR=green" >> $GITHUB_ENV
           else
