@@ -1,4 +1,4 @@
-name: 🚀 E2E Tests - Comprehensive Pipeline
+name: 🚀 Cypress E2E Tests Pipeline
 
 on:
   push:
