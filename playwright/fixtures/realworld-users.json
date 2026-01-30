@@ -1,0 +1,18 @@
+{
+  "testUser": {
+    "username": "cypresstest",
+    "email": "cypress.test@test.com",
+    "password": "CypressTest123!"
+  },
+  "testUser2": {
+    "username": "cypresstest2",
+    "email": "cypress.test2@test.com",
+    "password": "CypressTest123!"
+  },
+  "articleData": {
+    "title": "Test Article from Cypress",
+    "description": "This is a test article created by automated tests",
+    "body": "This is the body of the test article. It contains some content for testing purposes.\n\n## Heading\n\nSome more content here.",
+    "tags": ["testing", "automation", "cypress"]
+  }
+}

@@ -26,3 +26,8 @@ npm-debug.log*
 dist/
 build/
 package-lock.json
+
+# Playwright test results
+test-results/
+playwright-report/
+playwright/.cache/
