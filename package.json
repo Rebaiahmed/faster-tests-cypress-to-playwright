@@ -4,9 +4,25 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "cypress run",
+    "test:headless": "cypress run --headless",
+    "test:headed": "cypress run --headed",
+    "test:chrome": "cypress run --headed --browser chrome",
+    "test:firefox": "cypress run --headed --browser firefox",
+    "test:edge": "cypress run --headed --browser edge",
+    "test:chrome:headless": "cypress run --browser chrome",
+    "test:firefox:headless": "cypress run --browser firefox",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --headless",
-    "test": "npm run cypress:run"
+    "cypress:run": "cypress run",
+    "test:benchmark": "echo 'Starting benchmark...' && time cypress run",
+    "test:spec": "cypress run --spec",
+    "test:login": "cypress run --spec 'cypress/e2e/login.js'",
+    "test:cart": "cypress run --spec 'cypress/e2e/shopping_cart.js,cypress/e2e/cart_operations.js'",
+    "test:checkout": "cypress run --spec 'cypress/e2e/checkout*.js'",
+    "test:smoke": "cypress run --spec 'cypress/e2e/smoke_tests.js'",
+    "test:integration": "cypress run --spec 'cypress/e2e/integration_tests.js'",
+    "test:report": "cypress run --reporter json --reporter-options output=results.json",
+    "test:count": "find cypress/e2e -name '*.js' -exec grep -h '^\\s*it(' {} \\; | wc -l"
   },
   "repository": {
     "type": "git",
