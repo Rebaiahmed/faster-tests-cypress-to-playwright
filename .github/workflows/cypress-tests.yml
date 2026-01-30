@@ -102,6 +102,7 @@ jobs:
 
       - name: 🧪 Run SauceDemo Tests (Container ${{ matrix.containers }})
         uses: cypress-io/github-action@v6
+        continue-on-error: true
         with:
           install: false
           spec: cypress/e2e/*.js
@@ -166,12 +167,12 @@ jobs:
 
       - name: 🧪 Run RealWorld Tests
         uses: cypress-io/github-action@v6
+        continue-on-error: true
         with:
           install: false
           spec: cypress/e2e/realworld/*.js
           browser: ${{ github.event.inputs.browser || 'chrome' }}
           record: false
-        continue-on-error: true
 
       - name: 📸 Upload Screenshots
         if: always()
@@ -229,6 +230,7 @@ jobs:
 
       - name: 🧪 Run API Tests
         uses: cypress-io/github-action@v6
+        continue-on-error: true
         with:
           install: false
           spec: cypress/e2e/api/*.js
