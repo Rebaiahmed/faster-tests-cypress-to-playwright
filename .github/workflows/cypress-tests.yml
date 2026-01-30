@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
           restore-keys: |
             cypress-${{ runner.os }}-
 
@@ -67,7 +67,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
   # Job 2: SauceDemo UI Tests
   saucedemo-tests:
@@ -92,13 +92,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 📦 Restore node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 🧪 Run SauceDemo Tests (Container ${{ matrix.containers }})
         uses: cypress-io/github-action@v6
@@ -157,13 +157,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 📦 Restore node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 🧪 Run RealWorld Tests
         uses: cypress-io/github-action@v6
@@ -220,13 +220,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 📦 Restore node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ runner.os }}-${{ hashFiles(.package.json.) }}
+          key: node-modules-${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: 🧪 Run API Tests
         uses: cypress-io/github-action@v6
