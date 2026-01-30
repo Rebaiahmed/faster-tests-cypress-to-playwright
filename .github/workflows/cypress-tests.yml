@@ -47,7 +47,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Cache Cypress binary
         uses: actions/cache@v4
@@ -88,7 +87,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Restore Cypress cache
         uses: actions/cache@v4
@@ -154,7 +152,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Restore Cypress cache
         uses: actions/cache@v4
@@ -218,7 +215,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
 
       - name: 📚 Restore Cypress cache
         uses: actions/cache@v4
