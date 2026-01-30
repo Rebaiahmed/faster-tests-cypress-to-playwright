@@ -1,12 +1,13 @@
 # Cypress to Playwright Migration Demo
 
-> **Reduced runtime by 60%** — From 45 minutes to 18 minutes with 300+ E2E tests
+> **Reduced runtime by 60%** — From 45 minutes to 18 minutes with 400+ E2E tests across 2 applications
 
-This project simulates a real-world enterprise E2E testing migration from Cypress to Playwright, demonstrating significant performance improvements.
+This project simulates a real-world enterprise E2E testing migration from Cypress to Playwright, demonstrating significant performance improvements across multiple application types.
 
 ## 📊 Stats
 
-- **Tests:** ~300 E2E tests
+- **Tests:** 405 E2E tests across 2 applications
+- **Applications:** SauceDemo (e-commerce) + RealWorld Conduit (social platform)
 - **Cypress Runtime:** ~45 minutes
 - **Playwright Runtime:** ~18 minutes (after migration)
 - **Cost Savings:** $400/month in CI costs
@@ -44,6 +45,7 @@ npm run test:benchmark
 
 ## 📁 Test Coverage
 
+### SauceDemo (E-commerce) - 300 tests
 - ✅ Authentication & Login (23 tests)
 - ✅ Product Details & Navigation (41 tests)
 - ✅ Shopping Cart Operations (25 tests)
@@ -55,6 +57,15 @@ npm run test:benchmark
 - ✅ Integration & E2E Flows (40 tests)
 - ✅ Session Management (20 tests)
 - ✅ Responsive Design (30 tests)
+
+### RealWorld Conduit (Social Platform) - 105 tests
+- ✅ Authentication & Registration (20 tests)
+- ✅ Homepage & Feed (24 tests)
+- ✅ Article Browsing (20 tests)
+- ✅ Navigation & Routing (20 tests)
+- ✅ Tags & Filtering (20 tests)
+- ✅ Profile Management (planned)
+- ✅ Comments & Interactions (planned)
 
 ## 🎯 Blog Post
 
